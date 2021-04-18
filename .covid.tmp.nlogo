@@ -134,7 +134,7 @@ cluster
 cluster
 0
 10
-1.0
+3.0
 1
 1
 NIL
@@ -149,7 +149,7 @@ vaccination
 vaccination
 0.0
 100.00
-30.0
+10.0
 10.0
 1
 %
