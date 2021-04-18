@@ -149,7 +149,7 @@ vaccination
 vaccination
 0.0
 100.00
-10.0
+30.0
 10.0
 1
 %
