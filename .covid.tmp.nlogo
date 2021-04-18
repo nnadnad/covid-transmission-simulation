@@ -134,7 +134,7 @@ cluster
 cluster
 0
 10
-1.0
+3.0
 1
 1
 NIL
