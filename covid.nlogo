@@ -13,7 +13,7 @@ end
 
 to go
   if not any? turtles [stop]
-  if not any? turtles with [not infected?] [user-message "Everyone is sick" stop]
+  if not any? turtles with [not infected?] [user-message "Everyone is already infected" stop]
   move-turtles
   tick
 end
@@ -149,7 +149,7 @@ vaccination
 vaccination
 0.0
 100.00
-30.0
+0.0
 10.0
 1
 %
