@@ -2,6 +2,8 @@ turtles-own [
   energy
   vaccinated?
   infected?
+  recovered?
+  infected-duration
 ]
 
 to setup
@@ -15,6 +17,8 @@ to go
   if not any? turtles [stop]
   if not any? turtles with [not infected?] [user-message "Everyone is already infected" stop]
   move-turtles
+  infect
+  recover
   tick
 end
 
@@ -25,8 +29,10 @@ end
 to setup-turtles
   create-turtles 100 [
     setxy random-xcor random-ycor
-    set energy 1000
+    ;set energy 1000
     let people random 10
+    set infected-duration 0
+    set recovered? false
     ifelse people < cluster [
       set infected? true
       set shape "person"
@@ -48,7 +54,12 @@ to move-turtles
     rt random 50
     lt random 50
     fd 1
+  ]
+end
 
+to infect
+  ask turtles with [infected? and not recovered?] [
+    set infected-duration infected-duration + 1
     let targets turtles in-radius 1
     ask targets [
       if not infected? and not vaccinated? [
@@ -63,6 +74,22 @@ to move-turtles
     ]
   ]
 end
+
+to recover
+  ask turtles with [infected?] [
+    if (infected-duration > 14) [
+      if ((random 100) < chance-of-recovery) [
+        set infected-duration 0
+        set recovered? true
+        set shape "person"
+        set color yellow
+        set size 1.5
+      ]
+    ]
+  ]
+end
+
+
 @#$#@#$#@
 GRAPHICS-WINDOW
 406
@@ -134,7 +161,7 @@ cluster
 cluster
 0
 10
-1.0
+3.0
 1
 1
 NIL
@@ -147,10 +174,10 @@ SLIDER
 211
 vaccination
 vaccination
-0.0
-100.00
-0.0
+0
+100
 10.0
+10
 1
 %
 HORIZONTAL
@@ -162,10 +189,10 @@ SLIDER
 267
 chance-of-infection
 chance-of-infection
-0.0
-100.00
+0
+100
 20.0
-10.0
+10
 1
 %
 HORIZONTAL
@@ -186,8 +213,23 @@ true
 true
 "" ""
 PENS
-"sick" 1.0 0 -2674135 true "" "plot count turtles with [infected?]"
-"healthy" 1.0 0 -15040220 true "" "plot count turtles with [not infected?]"
+"sick" 1.0 0 -2674135 true "" "plot count turtles with [infected? and not recovered?]"
+"healthy" 1.0 0 -15040220 true "" "plot count turtles with [not infected? or recovered?]"
+
+SLIDER
+20
+64
+195
+97
+chance-of-recovery
+chance-of-recovery
+0
+100
+0.0
+10
+1
+%
+HORIZONTAL
 
 @#$#@#$#@
 ## WHAT IS IT?
